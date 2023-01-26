@@ -1,0 +1,25 @@
+﻿@model List<VardiyaTakipDefteri.Models.Vardiya_Defter>
+@{
+    ViewBag.Title = "Ara";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canSort: true, canPage: true, rowsPerPage: 9);
+}
+
+<h2>Ara</h2>
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.js")"></script>
+
+@using (Ajax.BeginForm("Filter", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "myGrid" }))
+{
+    <fieldset>
+        <legend>Schedules</legend>
+        <div>
+            Description:
+            <input type="text" id="description" name="description" />
+            <input type="submit" value="Search" />
+        </div>
+    </fieldset>
+}

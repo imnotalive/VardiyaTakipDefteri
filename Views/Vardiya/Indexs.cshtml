@@ -1,0 +1,295 @@
+﻿@using VardiyaTakipDefteri.Models
+@model IEnumerable<Vardiya>
+@{
+    ViewBag.Title = "Indexs";
+
+    WebGrid webGrid = new WebGrid(source: Model, canSort: true, canPage: true, rowsPerPage: 9);
+    //var grid = new WebGrid(ViewBag.MakineId);
+    var grids = new WebGrid(Model);
+}
+
+<CENTER><h2><b>VARDİYA DEFTERİ</b></h2></CENTER>
+<p>
+    @Html.ActionLink("RAPORLAMA", "VardiyaRapor", "Vardiya", new { @class = "btn btn-danger btn-block" })
+</p>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.quicksearch.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 8pt;
+            text-align: center;
+            font-weight: bold;
+        }
+
+
+
+
+        .Grid th {
+            background-color: #CCC;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .Grid th, .Grid td {
+            padding: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .Grid img {
+            cursor: pointer;
+        }
+
+        .ChildGrid {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            background-color: #b3d6f3;
+            text-align: center;
+        }
+
+            .ChildGrid th {
+                background-color: #6C6C6C;
+                color: #fff;
+                font-weight: bold;
+                text-align: center;
+            }
+
+
+        .webgrid-table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 1.2em;
+            width: 100%;
+            display: table;
+            border-collapse: separate;
+            border: solid 1px #98BF21;
+            background-color: white;
+            text-align: center;
+        }
+
+            .webgrid-table td, th {
+                border: 1px solid #98BF21;
+                padding: 3px 7px 2px;
+                text-align: center;
+            }
+
+        .webgrid-header {
+            background-color: #A7C942;
+            color: #FFFFFF;
+            padding-bottom: 4px;
+            padding-top: 5px;
+            text-align: center;
+        }
+
+
+
+        .webgrid-row-style {
+            padding: 3px 7px 2px;
+            text-align: center;
+        }
+
+        .webgrid-alternating-row {
+            background-color: #EAF2D3;
+            padding: 3px 7px 2px;
+            text-align: center;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <div class="text-center">
+        <button class="btn btn-success" data-toggle="modal" data-target="#myModal">YENİ EKLE</button>
+    </div>
+
+
+    <br />
+
+    <div class="text-center">
+        @webGrid.GetHtml(
+            htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+
+              tableStyle: "webgrid-table",
+        headerStyle: "webgrid-header",
+
+        alternatingRowStyle: "webgrid-alternating-row",
+        selectedRowStyle: "webgrid-selected-row",
+        rowStyle: "webgrid-row-style",
+        mode: WebGridPagerModes.All,
+ firstText: "<< İlk",
+ previousText: "< Geri",
+ nextText: "İleri >",
+ lastText: "Son >>",
+            columns: webGrid.Columns(
+                     webGrid.Column(null, null, format: @<text><img src="~/Images/plus.png" /><div style="display:none"></div></text>),
+
+webGrid.Column("Tarih", "VARDİYA TARİHİ", format: (item) => item.Tarih != null
+? item.Tarih.ToString("dd.MM.yyyy") : ""),
+webGrid.Column("VardiyaSaati", "VARDİYA SAATİ", format:@<text>
+
+        @if (item.VardiyaSaati == "23:00-07:00")
+                 {
+            <table style="background-color: black; color: black">@item.VardiyaSaati</table>
+                 }
+
+
+
+
+    </text>),
+webGrid.Column("VardiyaAmiri", "VARDİYA AMİRİ"),
+webGrid.Column("VardiyaAmiriYrd", "VARDİYA AMİR YARDIMCISI"),
+webGrid.Column("",
+header: "İŞLEMLER",
+format: @<text>
+            @Html.ActionLink("DETAYLAR", "Detaylar", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("DETAY EKLE", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("TRAFO EKLE", "EditTrafo", new { id = item.ID }, new { @class = "btn btn-primary" })
+
+    </text>
+),
+webGrid.Column(format: (items) =>
+{
+ WebGrid childGrid = new WebGrid(source: items.Orders, canSort: false, canPage: true);
+ return childGrid.GetHtml(
+htmlAttributes: new { @class = "ChildGrid" },
+columns: childGrid.Columns(
+childGrid.Column("VardiyaTarihi", "Tarih", format: (item) => item.VardiyaTarihi != null
+? item.VardiyaTarihi.ToString("dd.MM.yyyy") : ""),
+childGrid.Column("Bolum", "Bölüm"),
+childGrid.Column("MakineId", "Makine"),
+//childGrid.Column(List<Vardiya_BolumMakine>ViewBag.MakineId,"Makine"),
+childGrid.Column("WinderNo", "Winder No"),
+childGrid.Column("KanalFirinPozisyon", "Kanal Fırın Pozisyon"),
+childGrid.Column("Aciklama", "Açıklama"),
+
+
+childGrid.Column("DevredenCiktiMi", "Devreden Çıktı Mı", canSort: true,
+format:@<text>
+
+            @(item.DevredenCiktiMi ? "EVET" : "HAYIR" )
+
+    </text>),
+childGrid.Column("DevreCikisSaati", "Çıkış Saati"),
+childGrid.Column(header: "#", format:@<a href="/Vardiya/EditDetay/@item.ID" class="btn btn-danger">DÜZENLE</a>),
+childGrid.Column(header: "#", format:@<a href="/Vardiya/Details/@item.ID" class="btn btn-info">DETAYLAR</a>),
+
+childGrid.Column(header: "#", format:@<a href="/Vardiya/VardiyaResimEkleme/@item.ID" class="btn btn-primary">RESİM EKLE</a>)
+
+
+));
+})
+))
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+        <script src="~/Scripts/bootstrap.min.js"></script>
+
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                //Loop through all Child Grids.
+                $("#WebGrid .ChildGrid").each(function () {
+                    //Copy the Child Grid to DIV.
+                    var childGrid = $(this).clone();
+                    $(this).closest("TR").find("TD").eq(0).find("DIV").append(childGrid);
+
+                    //Remove the Last Column from the Row.
+                    $(this).parent().remove();
+                });
+
+                //Remove Last Column from Header Row.
+                $("#WebGrid TH:last-child").eq(0).remove();
+            });
+            //Assign Click event to Plus Image.
+            $("body").on("click", "img[src*='plus.png']", function () {
+                $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+                $(this).attr("src", "/images/minus.png");
+            });
+            //Assign Click event to Minus Image.
+            $("body").on("click", "img[src*='minus.png']", function () {
+                $(this).attr("src", "/images/plus.png");
+                $(this).closest("tr").next().remove();
+            });
+        </script>
+    </div>
+</body>
+
+</html>
+<br />
+@*@using (Html.BeginForm())
+    {
+        <div id="grid">
+            @grid.GetHtml()
+        </div>*@
+
+
+
+
+
+@using (Html.BeginForm("Create", "ZiyaretciTakip", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="modal" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                    </div>
+                    <div class="modal-body">
+                        <CENTER><h4><b>VARDİYA EKLEME</b></h4></CENTER>
+
+
+                        <div id="result1"></div>
+                        <script>
+
+                            $(document).ready(function () {
+
+                                $('#result1').load('/Vardiya/Create');
+
+                            });
+
+
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+
+                            <div style="float:right">
+                                <button class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+

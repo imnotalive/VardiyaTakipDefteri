@@ -1,0 +1,698 @@
+﻿@using VardiyaTakipDefteri.Models
+@model IEnumerable<Vardiya_DefterAna>
+@{
+    ViewBag.Title = "Index";
+
+    //WebGrid webGrid = new WebGrid(source: Model, canSort: true, canPage: true, rowsPerPage: 9);
+    //List<Vardiya> cols = new List<Vardiya>();
+}
+
+<CENTER><h2><b>POLYTEKS VARDİYA TAKİP DEFTERİ</b></h2></CENTER>
+<p>
+    @Html.ActionLink("RAPORLAMA", "VardiyaRapor", "Vardiya", new { @class = "btn btn-danger" })
+
+
+</p>
+<div class="text-center">
+    <button class="btn btn-success" data-toggle="modal" data-target="#myModal">YENİ VARDİYA EKLE</button>
+</div>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+
+<table id="c" class="table table-bordered table-striped table-dark" style="background-color: #8e8989">
+    <thead style="background-color: #9c9b9b">
+        <tr style="background-color: #9c9b9b" class="text-center">
+            <th>
+
+            </th>
+
+            <th>
+                <b>TARİH</b>
+            </th>
+            <th>
+                <b>VARDİYA SAATİ</b>
+            </th>
+            <th>
+                <b>VARDİYA AMİRİ</b>
+                //
+                <b>VARDİYA AMİR YARDIMCISI</b>
+            </th>
+            <th>
+
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.VardiyaSaati == "15:00-23:00")
+            {
+                <tr style="background-color: #eed1a2">
+                    <td>
+                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br /> EKLE</i></a>
+                        <br />
+                        <br />
+
+                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success"> <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
+
+                    </td>
+
+                    <td>
+                        <center><b>  @Convert.ToDateTime(item.Tarih).ToString("dd.MM.yyyy")</b></center>
+                    </td>
+                    <td>
+                        <b> @Html.DisplayFor(modelItem => item.VardiyaSaati)</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VardiyaAmiri)
+                        //
+                        @Html.DisplayFor(modelItem => item.VardiyaAmirYardimcisi)
+                    </td>
+
+                    <td>
+                        <table id="c" class="table table-bordered  table-responsive table-info">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Bölüm
+                                    </th>
+                                    <th>
+                                        Makine
+                                    </th>
+
+                                    <th>
+                                        Kanal Fırın Pozisyon
+                                    </th>
+                                    <th>
+                                        Winder No
+                                    </th>
+                                    <th>
+                                        Taraf
+                                    </th>
+
+
+                                    <th>
+                                        Açıklama
+                                    </th>
+                                    <th>
+                                        Devreden Çıktı Mı
+                                    </th>
+                                    <th>
+                                        Devreden Çıkış Saati
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_Defter)
+                                {
+                                    <tr style="background-color: #eed1a2">
+                                        <td> @(detay.Vardiya_BolumMakine.Vardiya_Bolum.Bolum)</td>
+                                        <td> @(detay.Vardiya_BolumMakine.Makineler)</td>
+
+
+                                        <td> @(detay.KanalFirinPozisyon)</td>
+
+                                        <td> @(detay.WinderNo)</td>
+                                        <td> @(detay.Taraf)</td>
+
+
+                                        <td> @(detay.Aciklama)</td>
+                                        <td>
+                                            @if (detay.DevredenCiktiMi == true)
+                                            {
+                                                @Html.Encode("EVET")
+                                            }
+                                            @if (detay.DevredenCiktiMi == false)
+                                            {
+                                                @Html.Encode("HAYIR")
+                                            }
+                                        </td>
+                                        <td> @(detay.DevreCikisSaati)</td>
+                                        <td><a href="/Vardiya/EditDetay/@detay.ID" class="btn btn-success" title="DÜZENLE"><i class="glyphicon-pencil"></i></a></td>
+
+                                        @foreach (var asd in detay.Vardiya_Resim)
+                                        {
+                                            if (asd.ImagePath.ToString() != null)
+                                            {
+                                                <td><a href="/Vardiya/Details/@detay.ID" class="btn btn-info" title="DETAYLAR"><i class="glyphicon glyphicon-book"></i></a></td>
+                                            }
+
+                                        }
+                                        <td><a href="/Vardiya/VardiyaResimEkleme/@detay.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
+                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <table id="c" class="table table-bordered table-responsive">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Trafo 1
+                                    </th>
+                                    <th>
+                                        Trafo 2
+                                    </th>
+
+                                    <th>
+                                        Trafo 3
+                                    </th>
+                                    <th>
+                                        Trafo 4
+                                    </th>
+
+
+                                    <th>
+                                        Trafo 5
+                                    </th>
+                                    <th>
+                                        Trafo 6
+                                    </th>
+                                    <th>
+                                        Trafo 7
+                                    </th>
+                                    <th>
+                                        Yedek Kompresör
+                                    </th>
+                                    <th>
+                                        Çalışan Soğutma Isıtma
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_TrafoKmprsr)
+                                {
+                                    <tr style="background-color: #eed1a2">
+                                        <td> @(detay.TrafoNo1)</td>
+                                        <td>@(detay.TrafoNo2)</td>
+
+                                        <td> @(detay.TrafoNo3)</td>
+
+                                        <td> @(detay.TrafoNo4)</td>
+
+                                        <td> @(detay.TrafoNo5)</td>
+                                        <td> @(detay.TrafoNo6)</td>
+                                        <td> @(detay.TrafoNo7)</td>
+                                        <td> @(detay.YedekKompresor)</td>
+                                        <td> @(detay.CalisanSogutmaIsitma)</td>
+
+                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+            }
+            else if (item.VardiyaSaati == "23:00-07:00")
+            {
+                <tr style="background-color: #DCEDC8">
+                    <td>
+                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br />EKLE</i></a>
+                        <br />
+                        <br />
+
+                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success"> <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
+
+                    </td>
+
+
+
+                    <td>
+                        <center><b>  @Convert.ToDateTime(item.Tarih).ToString("dd.MM.yyyy")</b></center>
+                    </td>
+                    <td>
+                        <b> @Html.DisplayFor(modelItem => item.VardiyaSaati)</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VardiyaAmiri)
+                        //
+                        @Html.DisplayFor(modelItem => item.VardiyaAmirYardimcisi)
+                    </td>
+
+                    <td>
+                        <table id="c" class="table table-bordered  table-responsive table-info">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Bölüm
+                                    </th>
+                                    <th>
+                                        Makine
+                                    </th>
+                                    <th>
+                                        Kanal Fırın Pozisyon
+                                    </th>
+                                    <th>
+                                        Winder No
+                                    </th>
+                                    <th>
+                                        Taraf
+                                    </th>
+
+
+                                    <th>
+                                        Açıklama
+                                    </th>
+                                    <th>
+                                        Devreden Çıktı Mı
+                                    </th>
+                                    <th>
+                                        Devreden Çıkış Saati
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_Defter)
+                                {
+                                    <tr style="background-color: #DCEDC8">
+                                        <td> @(detay.Vardiya_BolumMakine.Vardiya_Bolum.Bolum)</td>
+                                        <td> @(detay.Vardiya_BolumMakine.Makineler)</td>
+
+                                        <td> @(detay.KanalFirinPozisyon)</td>
+
+                                        <td> @(detay.WinderNo)</td>
+                                        <td> @(detay.Taraf)</td>
+
+
+                                        <td> @(detay.Aciklama)</td>
+                                        <td>
+                                            @if (detay.DevredenCiktiMi == true)
+                                            {
+                                                @Html.Encode("EVET")
+                                            }
+                                            @if (detay.DevredenCiktiMi == false)
+                                            {
+                                                @Html.Encode("HAYIR")
+                                            }
+                                        </td>
+                                        <td> @(detay.DevreCikisSaati)</td>
+
+                                        <td><a href="/Vardiya/EditDetay/@detay.ID" class="btn btn-success" title="DÜZENLE"><i class="glyphicon-pencil"></i></a></td>
+                                        @foreach (var asd in detay.Vardiya_Resim)
+                                        {
+                                            if (asd.ImagePath.ToString() != null)
+                                            {
+                                                <td><a href="/Vardiya/Details/@detay.ID" class="btn btn-info" title="DETAYLAR"><i class="glyphicon glyphicon-book"></i></a></td>
+                                            }
+
+                                        }
+                                        <td><a href="/Vardiya/VardiyaResimEkleme/@detay.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
+                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <table id="c" class="table table-bordered table-responsive">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Trafo 1
+                                    </th>
+                                    <th>
+                                        Trafo 2
+                                    </th>
+
+                                    <th>
+                                        Trafo 3
+                                    </th>
+                                    <th>
+                                        Trafo 4
+                                    </th>
+
+
+                                    <th>
+                                        Trafo 5
+                                    </th>
+                                    <th>
+                                        Trafo 6
+                                    </th>
+                                    <th>
+                                        Trafo 7
+                                    </th>
+                                    <th>
+                                        Yedek Kompresör
+                                    </th>
+                                    <th>
+                                        Çalışan Soğutma Isıtma
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_TrafoKmprsr)
+                                {
+                                    <tr style="background-color: #DCEDC8">
+                                        <td> @(detay.TrafoNo1)</td>
+                                        <td>@(detay.TrafoNo2)</td>
+
+                                        <td> @(detay.TrafoNo3)</td>
+
+                                        <td> @(detay.TrafoNo4)</td>
+
+                                        <td> @(detay.TrafoNo5)</td>
+                                        <td> @(detay.TrafoNo6)</td>
+                                        <td> @(detay.TrafoNo7)</td>
+                                        <td> @(detay.YedekKompresor)</td>
+                                        <td> @(detay.CalisanSogutmaIsitma)</td>
+
+                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+            }
+            else if (item.VardiyaSaati == "07:00-15:00")
+            {
+                <tr style="background-color: #BBDEFB">
+                    <td>
+                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br /> EKLE</i></a>
+                        <br />
+                        <br />
+
+                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success" id="btn" > <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
+
+                    </td>
+
+                    <td>
+                        <center><b>  @Convert.ToDateTime(item.Tarih).ToString("dd.MM.yyyy")</b></center>
+                    </td>
+                    <td>
+                        <b> @Html.DisplayFor(modelItem => item.VardiyaSaati)</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VardiyaAmiri)
+                        //
+                        @Html.DisplayFor(modelItem => item.VardiyaAmirYardimcisi)
+                    </td>
+
+                    <td>
+                        <table id="c" class="table table-bordered  table-responsive table-dark">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Bölüm
+                                    </th>
+                                    <th>
+                                        Makine
+                                    </th>
+                                    <th>
+                                        Kanal Fırın Pozisyon
+                                    </th>
+                                    <th>
+                                        Winder No
+                                    </th>
+                                    <th>
+                                        Taraf
+                                    </th>
+
+
+                                    <th>
+                                        Açıklama
+                                    </th>
+                                    <th>
+                                        Devreden Çıktı Mı
+                                    </th>
+                                    <th>
+                                        Devreden Çıkış Saati
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_Defter)
+                                {
+                                    <tr style="background-color: #BBDEFB">
+                                        <td> @(detay.Vardiya_BolumMakine.Vardiya_Bolum.Bolum)</td>
+                                        <td> @(detay.Vardiya_BolumMakine.Makineler)</td>
+
+                                        <td> @(detay.KanalFirinPozisyon)</td>
+
+                                        <td> @(detay.WinderNo)</td>
+                                        <td> @(detay.Taraf)</td>
+
+
+                                        <td> @(detay.Aciklama)</td>
+                                        <td>
+                                            @if (detay.DevredenCiktiMi == true)
+                                            {
+                                                @Html.Encode("EVET")
+                                            }
+                                            @if (detay.DevredenCiktiMi == false)
+                                            {
+                                                @Html.Encode("HAYIR")
+                                            }
+                                        </td>
+                                        <td> @(detay.DevreCikisSaati)</td>
+                                        <td><a href="/Vardiya/EditDetay/@item.ID" class="btn btn-success" title="DÜZENLE"><i class="glyphicon-pencil"></i></a></td>
+                                        @foreach (var asd in detay.Vardiya_Resim)
+                                        {
+                                            if (asd.ImagePath.ToString() != null)
+                                            {
+                                                <td><a href="/Vardiya/Details/@detay.ID" class="btn btn-info" title="DETAYLAR"><i class="glyphicon glyphicon-book"></i></a></td>
+                                            }
+
+                                        }
+                                        <td><a href="/Vardiya/VardiyaResimEkleme/@item.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
+                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <table id="c" class="table table-bordered table-responsive table-dark">
+                            <thead>
+                                <tr style="background-color: #9c9b9b">
+                                    <th>
+                                        Trafo 1
+                                    </th>
+                                    <th>
+                                        Trafo 2
+                                    </th>
+
+                                    <th>
+                                        Trafo 3
+                                    </th>
+                                    <th>
+                                        Trafo 4
+                                    </th>
+
+
+                                    <th>
+                                        Trafo 5
+                                    </th>
+                                    <th>
+                                        Trafo 6
+                                    </th>
+                                    <th>
+                                        Trafo 7
+                                    </th>
+                                    <th>
+                                        Yedek Kompresör
+                                    </th>
+                                    <th>
+                                        Çalışan Soğutma Isıtma
+                                    </th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detay in item.Vardiya_TrafoKmprsr)
+                                {
+                                    <tr style="background-color: #BBDEFB">
+                                        <td> @(detay.TrafoNo1)</td>
+                                        <td>@(detay.TrafoNo2)</td>
+
+                                        <td> @(detay.TrafoNo3)</td>
+
+                                        <td> @(detay.TrafoNo4)</td>
+
+                                        <td> @(detay.TrafoNo5)</td>
+                                        <td> @(detay.TrafoNo6)</td>
+                                        <td> @(detay.TrafoNo7)</td>
+                                        <td> @(detay.YedekKompresor)</td>
+                                        <td> @(detay.CalisanSogutmaIsitma)</td>
+
+                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
+
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.print.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#c').DataTable({
+            extend: 'print',
+
+            paging: true,
+            searching: true,
+            "order": [],
+            ordering: false,
+            //aaSorting: [[0, "asc"]],
+            /*  order: [[6, "asc"]],*/
+            /*   "order": [[6, "asc"]],*/
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            },
+            //dom: "Bfrtip" ,
+            //buttons: [
+            //{ extend: 'copy' , text: 'KOPYALA' },
+            //{ extend: 'csv' , text: 'CSV' },
+            //{ extend: 'excel' , text: 'EXCEL' },
+            //{ extend: 'pdf' , text: 'PDF' },
+            //{ extend: 'print' , text: 'YAZDIR' }
+            //]
+        });
+    });
+
+
+
+</script>
+
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm("Create", "ZiyaretciTakip", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="modal" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                    </div>
+                    <div class="modal-body">
+                        <CENTER><h4><b>VARDİYA EKLEME</b></h4></CENTER>
+
+
+                        <div id="result1"></div>
+                        <script type="text/javascript">
+
+                            $(document).ready(function () {
+
+                                $('#result1').load('/Vardiya/Create');
+
+                            });
+
+
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+
+                            <div style="float:right">
+                                <button class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        table.table-bordered > thead > tr > th {
+            border: 2px solid black;
+        }
+
+        .table-bordered tbody tr {
+            border: 2px solid black;
+        }
+
+            .table-bordered tbody tr td {
+                border: 2px solid black;
+            }
+
+        .table-bordered tbody tr {
+            border: 2px solid black;
+        }
+
+        .table-bordered thead tr {
+            border: 2px solid black;
+        }
+
+            .table-bordered thead tr th {
+                border: 2px solid black;
+            }
+    </style>
+
+   
+}

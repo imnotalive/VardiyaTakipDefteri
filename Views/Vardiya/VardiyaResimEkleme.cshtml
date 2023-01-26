@@ -1,0 +1,40 @@
+﻿@model VardiyaTakipDefteri.Models.Vardiya_Resim
+@{
+    ViewBag.Title = "VardiyaResimEkleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <center><h2><b>VARDİYA RESİM EKLEME</b></h2></center>
+
+
+    @using (Html.BeginForm("VardiyaResimEkleme", "Vardiya", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+    {
+
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+
+
+
+            <div class="col-md-12 text-left">
+                <b>RESİM EKLE</b>&nbsp;<i>Birden Fazla Resim Eklemek İçin Ctrl ile Basıp Seçiniz!</i>
+                @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control", type = "file", multiple = "true" } })
+                @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group text-left">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="RESİM EKLE" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+
+    }

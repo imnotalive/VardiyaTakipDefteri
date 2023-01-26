@@ -1,0 +1,79 @@
+﻿@model VardiyaTakipDefteri.Models.Vardiya_Defter
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h3>Silmek İstediğinizden Emin Misiniz?</h3>
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VardiyaTarihi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VardiyaTarihi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aciklama)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aciklama)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DevredenCiktiMi)
+        </dt>
+
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WinderNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WinderNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KanalFirinPozisyon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KanalFirinPozisyon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bolum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bolum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vardiya_DefterAna.VardiyaAmiri)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vardiya_DefterAna.VardiyaAmiri)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="SİL" class="btn btn-danger" /> |
+            @Html.ActionLink("LİSTEYE DÖN", "Index")
+        </div>
+    }
+</div>

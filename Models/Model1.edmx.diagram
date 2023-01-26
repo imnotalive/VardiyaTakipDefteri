@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a3f9fcd8419d4a2a985fe8956418624f" Name="Diagram1" ZoomLevel="79">
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_Kullanici" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_Resim" Width="1.5" PointX="8.25" PointY="4.125" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_TrafoKmprsr" Width="1.5" PointX="6" PointY="8.125" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_Bolum" Width="1.5" PointX="1.5" PointY="5.5" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_BolumMakine" Width="1.5" PointX="3.75" PointY="5.5" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_BolumMakine_Vardiya_Bolum" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_Defter" Width="1.5" PointX="6" PointY="2.125" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_Resim_Vardiya_Defter" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_Saat" Width="1.5" PointX="1.5" PointY="9" />
+        <EntityTypeShape EntityType="POLY_QDMSModel.Vardiya_DefterAna" Width="1.5" PointX="3.75" PointY="8.25" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna1" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_DefterAna_Vardiya_Saat" />
+        <AssociationConnector Association="POLY_QDMSModel.FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,58 @@
+﻿@model VardiyaTakipDefteri.Models.TarihRapor
+@{
+    ViewBag.Title = "VardiyaRapor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 ">
+        <div class="portlet light bordered">
+            @*<div class="portlet-title">
+                    <div class="caption font-red-sunglo">
+                        <i class="icon-settings font-red-sunglo"></i>
+                        @using (Html.BeginForm("PersonelRapor", "PersonelDisaridaGecirilenSure"))
+                        {
+                            <input type="submit" value="EXCEL" color="btn btn-success" />
+                        }
+                    </div>
+                </div>*@
+
+            @using (Html.BeginForm("VardiyaRaporModeliOlustur", "Vardiya"))
+            {
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label class="control-label"><b>BAŞLANGIÇ TARİH SEÇİMİ </b></label>
+                        <div class="input-icon right">
+                            @Html.TextBoxFor(a => a.BaslangicTarihiDateTime, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label"><b>BİTİŞ TARİH SEÇİMİ </b></label>
+                        <div class="input-icon right">
+                            @Html.TextBoxFor(a => a.BitisTarihiDateTime, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="control-label"><b>&nbsp; </b></label>
+                        <button type="submit" class="btn btn-danger red-thunderbird"><b> RAPOR İNDİR <i class="fa fa-book"></i></b></button>
+                    </div>
+
+
+
+                </div>
+                <br />
+
+
+            }
+
+
+
+
+        </div>
+    </div>
+</div>
+
+

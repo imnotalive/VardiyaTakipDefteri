@@ -1,0 +1,481 @@
+﻿@model VardiyaTakipDefteri.Models.Vardiya_Defter
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<input type="button" value="reset" id="btnReset" />
+
+
+<div>
+    @Html.ActionLink("LİSTEYE GERİ DÖN", "Index", "Vardiya", new { @class = "btn btn-primary" })
+</div>
+<div class="col-md-12">
+    <div class="card" style="background-color:white">
+        <div class="card-header">
+
+
+
+            @*<center><h4><b>@Model.Vardiya_DefterAna.Tarih TARİHİNDE @Model.Vardiya_DefterAna.VardiyaSaati SAATİNE VARDİYA DETAYI EKLEME</b></h4></center>*@
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+
+                <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+                <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+                <script>
+
+                    $(function () {
+
+                        $('#BolumID').change(function () {
+
+                            var id = $('#BolumID').val();
+
+                            $.ajax({
+
+                                url: '/Vardiya/makineGetir',
+
+                                data: { p: id },
+
+                                type: "POST",
+
+                                dataType: "Json",
+
+                                success: function (data) {
+
+                                    console.log(data);
+
+                                    $('#MakineID').empty();
+
+                                    for (var i = 0; i < data.length; i++) {
+
+                                        $('#MakineID').append("<option value='" + data[i].Value + "'>" + data[i].Text + "</Option>");
+
+                                    }
+
+                                }
+
+                            });
+
+                        });
+
+                    });
+
+                </script>
+
+
+
+                <div class="col-md-12">
+                    <div class="card" style="background-color:aliceblue">
+                        <div class="card-header">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <b> BÖLÜM</b>
+                                    <div class="col-md-12">
+
+                                        @Html.DropDownList("BolumID", null, "--Seçiniz--", new { @class = "form-control", required = "required" })
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("MAKİNE", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+
+                                        @Html.DropDownList("MakineID", null, "--Seçiniz--", new { @class = "form-control", required = "required" })
+                                        @*@Html.DropDownList("MakineId",null,"--Seçiniz--", new { @class = "form-control", required = "required" })*@
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("TARAF", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+                                        @Html.DropDownListFor(model => model.Taraf, new List<SelectListItem>
+                                                       { new  SelectListItem { Text = "A TARAFI", Value = "A TARAFI" },
+                                                         new  SelectListItem { Text = "B TARAFI", Value = "B TARAFI" },
+
+                                                          new  SelectListItem { Text = "A+B TARAFI", Value = "A+B TARAFI" },
+
+                                       new  SelectListItem { Text = "DİĞER", Value = "DİĞER" },
+
+
+
+                                                       }, "--SEÇİNİZ--", new { @class = "form-control", title = "Lütfen Seçiniz!" })
+                                        @Html.ValidationMessageFor(model => model.Taraf, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("KANAL FIRIN POZİSYON NO", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+
+                                        @Html.EditorFor(model => model.KanalFirinPozisyon, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.KanalFirinPozisyon, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("WİNDER NO", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+
+                                        @Html.EditorFor(model => model.WinderNo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.WinderNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group col-md-2">
+
+                                    <b> @Html.Label("DEVREDEN ÇIKTI MI", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+
+                                        @Html.CheckBoxFor(model => model.DevredenCiktiMi)
+                                        @Html.ValidationMessageFor(model => model.DevredenCiktiMi, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("DEVREDEN ÇIKIŞ SAATİ", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.DevreCikisSaati, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DevreCikisSaati, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                    </div>
+
+                   
+                  
+
+
+                    </div>
+
+                </div>
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+                <script language="javascript" type="text/javascript">
+                    $(function () {
+                        $("#DevredenCiktiMi").click(function () {
+                            if ($(this).is(':checked')) {
+                                $("#DevreCikisSaati").show();
+                            }
+                            else {
+                                $("#DevreCikisSaati").hide();
+                            }
+                        });
+                    });
+                </script>
+
+                <br />
+               
+                <br />
+
+
+                <div class="form-group col-md-12">
+                    <b>@Html.Label("AÇIKLAMA", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Aciklama, 10, 50, htmlAttributes: new { style = "width: 100%; max-width: 100%;", @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <p>
+
+                    <input type="submit" value="DEĞİŞİKLİKLERİ KAYDET" class="btn btn-success" />
+                </p>
+
+
+
+
+                @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+            <script>
+
+                $(document).ready(function () {
+                    $("input, select, textarea").not(':input[type=button], :input[type=submit], :input[type=reset]').each(function () {
+                        $(this).val("");
+                    });
+                });
+            </script>*@
+
+
+
+
+
+
+
+
+            }
+        </div>
+    </div>
+    <br />
+
+
+</div>
+
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>*@
+
+
+
+
+
+<style>
+    .long-width {
+        min-width: 90%;
+    }
+</style>
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+        $("#btnReset").click(function () {
+            $("#Aciklama").val("");
+            $("#WinderNo").val("");
+            $("#DevreCikisSaati").val("");
+            $("#Bolum").val("");
+            $("#Makine").val("");
+            $("#DevredenCiktiMi").val("");
+            $("#Taraf").val("");
+            $("#KanalFirinPozisyon").val("");
+
+
+        });
+    });
+</script>
+@*<div class="form-row">
+                                    <div class="form-group col-md-2">
+                                        <b> @Html.Label("BÖLÜM", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                        <div class="col-md-12">
+                                            @Html.DropDownList("Bolums",
+                    (IEnumerable<SelectListItem>)ViewBag.Bolums,
+                    "--SEÇİNİZ--")  @if (ViewBag.Bolums != null)
+                                {
+                                    @Html.DropDownListFor(model => model.Bolums, ViewBag.Bolums as SelectList, "--Seçiniz--", new { @class = "form-control", required = "required" })
+                                }
+                    @Html.DropDownListFor(model => model.DefterId, new SelectList(" "), "--Seçiniz--", new { @class = "form-control", required = "required" })
+                                @Html.DropDownListFor(model => model.Bolum, new List<SelectListItem>
+                    { new  SelectListItem { Text = "Tekstüre AS", Value = "Tekstüre AS" },
+                      new  SelectListItem { Text = "Tekstüre FK", Value = "Tekstüre FK" },
+
+                       new  SelectListItem { Text = "Üretim POY", Value = "Üretim POY" },
+                               new  SelectListItem { Text = "Üretim FDY", Value = "Üretim FDY" },
+    new  SelectListItem {Text = "Fantazi Büküm", Value = "Fantazi Büküm" },
+    new  SelectListItem { Text = "Teknik Tekstil", Value = "Teknik Tekstil" },
+    new  SelectListItem { Text = "İş Kazası", Value = "İş Kazası" },
+    new  SelectListItem { Text = "Elektrik Kesintisi", Value = "Elektrik Kesintisi" },
+    new  SelectListItem { Text = "Voltaj Dalgalanması", Value = "Voltaj Dalgalanması" },
+    new  SelectListItem { Text = "Paketleme", Value = "Paketleme" },
+    new  SelectListItem { Text = "Laboratuvar", Value = "Laboratuvar" },
+    new  SelectListItem { Text = "İdari Bina", Value = "İdari Bina" },
+    new  SelectListItem { Text = "Kompresör-Soğutma", Value = "Kompresör-Soğutma" },
+    new  SelectListItem { Text = "Diğer", Value = "Diğer" },
+
+
+
+                    }, "--SEÇİNİZ--", new { @style = "color:black", @class = "form-control", title = "Lütfen Seçiniz!", required = "required" })
+                                @Html.ValidationMessageFor(model => model.Bolum, "", new { @class = "text-danger" })
+                                </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <b> @Html.Label("MAKİNE", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                    <div class="col-md-12">
+
+                                        @Html.DropDownListFor(model => model.Makine, new List<SelectListItem>
+               {
+
+                 new  SelectListItem { Text = "AS1", Value = "AS1" },
+                 new  SelectListItem { Text = "AS2", Value = "AS2" },
+
+                 new  SelectListItem { Text = "AS3", Value = "AS3" },
+            new  SelectListItem {Text = "AS4", Value = "AS4" },
+            new  SelectListItem { Text = "AS5", Value = "AS5" },
+                  new  SelectListItem { Text = "AS6", Value = "AS6" },
+                                       new  SelectListItem { Text = "AS7", Value = "AS7" },
+            new  SelectListItem { Text = "AS8", Value = "AS8" },
+            new  SelectListItem { Text = "AS9", Value = "AS9" },
+            new  SelectListItem { Text = "AS10", Value = "AS10" },
+            new  SelectListItem { Text = "AS11", Value = "AS11" },
+            new  SelectListItem { Text = "AD3", Value = "AD3" },
+            new  SelectListItem { Text = "KLIMA2", Value = "KLIMA2" },
+            new  SelectListItem { Text = "KLIMA3", Value = "KLIMA3" },
+            new  SelectListItem { Text = "FK1", Value = "FK1" },
+                 new  SelectListItem { Text = "FK2", Value = "FK2" },
+                 new  SelectListItem { Text = "FK3", Value = "FK3" },
+                                       new  SelectListItem { Text = "FK4", Value = "FK4" },
+                                       new  SelectListItem { Text = "FK5", Value = "FK5" },
+                                       new  SelectListItem { Text = "FK6", Value = "FK6" },
+                                       new  SelectListItem { Text = "FK7", Value = "FK7" },
+                                       new  SelectListItem { Text = "FK8", Value = "FK8" },
+                                       new  SelectListItem { Text = "FK9", Value = "FK9" },
+                                       new  SelectListItem { Text = "FK10", Value = "FK10" },
+                                       new  SelectListItem { Text = "FK11", Value = "FK11" },
+                                       new  SelectListItem { Text = "FK12", Value = "FK12" },
+                                       new  SelectListItem { Text = "FK13", Value = "FK13" },
+                                       new  SelectListItem { Text = "FK14", Value = "FK14" },
+                                       new  SelectListItem { Text = "FK15", Value = "FK15" },
+                                       new  SelectListItem { Text = "AD1", Value = "AD1" },
+                                       new  SelectListItem { Text = "AD2", Value = "AD2" },
+                                       new  SelectListItem { Text = "TECRÜBE", Value = "TECRÜBE" },
+                                       new  SelectListItem { Text = "KATLAMA", Value = "KATLAMA" },
+                                       new  SelectListItem { Text = "KLIMA1", Value = "KLIMA1" },
+                                       new  SelectListItem { Text = "BUKUM KLIMA", Value = "BUKUM KLIMA" },
+                                       new  SelectListItem { Text = "ÜRETİM3", Value = "ÜRETİM3" },
+                                       new  SelectListItem { Text = "ÜRETİM4", Value = "ÜRETİM4" },
+                                       new  SelectListItem { Text = "ÜRETİM5", Value = "ÜRETİM5" },
+                                       new  SelectListItem { Text = "ÜRETİM6", Value = "ÜRETİM6" },
+                                       new  SelectListItem { Text = "ÜRETİM7", Value = "ÜRETİM7" },
+                                       new  SelectListItem { Text = "ÜRETİM8-9", Value = "ÜRETİM8-9" },
+                                       new  SelectListItem { Text = "ÜRETİM10", Value = "ÜRETİM10" },
+                                       new  SelectListItem { Text = "ÜRETİM11-12", Value = "ÜRETİM11-12" },
+                                       new  SelectListItem { Text = "ÜRETİM13", Value = "ÜRETİM13" },
+                                       new  SelectListItem { Text = "ÜRETİM14", Value = "ÜRETİM14" },
+                                       new  SelectListItem { Text = "ÜRETİM15", Value = "ÜRETİM15" },
+                                       new  SelectListItem { Text = "ÜRETİM16", Value = "ÜRETİM16" },
+                                       new  SelectListItem { Text = "ÜRETİM17", Value = "ÜRETİM17" },
+                                       new  SelectListItem { Text = "ÜRETİM18", Value = "ÜRETİM18" },
+                                       new  SelectListItem { Text = "DÜZE", Value = "DÜZE" },
+                                       new  SelectListItem { Text = "KRİSTALİZATÖR", Value = "KRİSTALİZATÖR" },
+                                       new  SelectListItem { Text = "CİPS SEVK", Value = "CİPS SEVK" },
+                                       new  SelectListItem { Text = "KLİMA", Value = "KLİMA" },
+
+                                       new  SelectListItem { Text = "FDY21", Value = "FDY21" },
+                                       new  SelectListItem { Text = "FDY22", Value = "FDY22" },
+                                         new  SelectListItem { Text = "FDY23", Value = "FDY23" },
+                                           new  SelectListItem { Text = "FDY24", Value = "FDY24" },
+                                             new  SelectListItem { Text = "FDY25", Value = "FDY25" },
+            new  SelectListItem { Text = "FDY26", Value = "FDY26" },
+                                       new  SelectListItem { Text = "FDY27", Value = "FDY27" },
+                                       new  SelectListItem { Text = "FDY28", Value = "FDY28" },
+                                       new  SelectListItem { Text = "FDY29", Value = "FDY29" },
+                                       new  SelectListItem { Text = "FDY30", Value = "FDY30" },
+                                       new  SelectListItem { Text = "FDY31", Value = "FDY31" },
+                                       new  SelectListItem { Text = "BICO", Value = "BICO" },
+                                       new  SelectListItem { Text = "DÜZE", Value = "DÜZE" },
+                                       new  SelectListItem { Text = "KRİSTALİZATÖR", Value = "KRİSTALİZATÖR" },
+                                       new  SelectListItem { Text = "CİPS SEVK", Value = "CİPS SEVK" },
+                                       new  SelectListItem { Text = "KLİMA", Value = "KLİMA" },
+                                       new  SelectListItem { Text = "SSM1", Value = "SSM1" },
+                                       new  SelectListItem { Text = "SSM2", Value = "SSM2" },
+                                       new  SelectListItem { Text = "ICBT1", Value = "ICBT1" },
+                                       new  SelectListItem { Text = "ICBT2", Value = "ICBT2" },
+                                       new  SelectListItem { Text = "ICBT3", Value = "ICBT3" },
+                                       new  SelectListItem { Text = "ICBT4", Value = "ICBT4" },
+                                       new  SelectListItem { Text = "BÜKÜM", Value = "BÜKÜM" },
+                                       new  SelectListItem { Text = "AKT 1", Value = "AKT 1" },
+                                       new  SelectListItem { Text = "AKT 2", Value = "AKT 2" },
+                                       new  SelectListItem { Text = "LEZZENİ 1", Value = "LEZZENİ 1" },
+                                       new  SelectListItem { Text = "LEZZENİ 2", Value = "LEZZENİ 2" },
+                                       new  SelectListItem { Text = "LEZZENİ 3", Value = "LEZZENİ 3" },
+                                       new  SelectListItem { Text = "BAM", Value = "BAM" },
+                                       new  SelectListItem { Text = "FİKSE", Value = "FİKSE" },
+                                       new  SelectListItem { Text = "DİPAZ", Value = "DİPAZ" },
+                                       new  SelectListItem { Text = "SSM1", Value = "SSM1" },
+                                       new  SelectListItem { Text = "SSM2", Value = "SSM1" },
+                                       new  SelectListItem { Text = "SSM3", Value = "SSM2" },
+                                       new  SelectListItem { Text = "SSM4", Value = "SSM3" },
+                                       new  SelectListItem { Text = "SSM5", Value = "SSM4" },
+                                       new  SelectListItem { Text = "SSM6", Value = "SSM5" },
+                                       new  SelectListItem { Text = "AKT 1", Value = "AKT 1" },
+                                       new  SelectListItem { Text = "AKT 2", Value = "AKT 2" },
+                                       new  SelectListItem { Text = "AKT 3", Value = "AKT 3" },
+                                       new  SelectListItem { Text = "AKT 4", Value = "AKT 4" },
+                                       new  SelectListItem { Text = "DW1", Value = "DW1" },
+                                       new  SelectListItem { Text = "DW2", Value = "DW2" },
+                                       new  SelectListItem { Text = "DW3", Value = "DW3" },
+                                       new  SelectListItem { Text = "DW4", Value = "DW4" },
+                                       new  SelectListItem { Text = "FİKSE", Value = "FİKSE" },
+                                       new  SelectListItem { Text = "DİPAZ", Value = "DİPAZ" },
+                                       new  SelectListItem { Text = "ATLAS TURBO1", Value = "ATLAS TURBO1" },
+                                       new  SelectListItem { Text = "ATLAS TURBO2", Value = "ATLAS TURBO2" },
+                                       new  SelectListItem { Text = "ATLAS TURBO3", Value = "ATLAS TURBO3" },
+                                       new  SelectListItem { Text = "ATLAS TURBO4", Value = "ATLAS TURBO4" },
+                                       new  SelectListItem { Text = "ATLAS TURBO5", Value = "ATLAS TURBO5" },
+                                       new  SelectListItem { Text = "ATLAS TURBO6", Value = "ATLAS TURBO6" },
+                                       new  SelectListItem { Text = "INVERTERLI1", Value = "INVERTERLI1" },
+                                       new  SelectListItem { Text = "INVERTERLI2", Value = "INVERTERLI2" },
+                                       new  SelectListItem { Text = "INVERTERLI3", Value = "INVERTERLI3" },
+                                       new  SelectListItem { Text = "TURBO1", Value = "TURBO1" },
+                                       new  SelectListItem { Text = "TURBO2", Value = "TURBO2" },
+                                       new  SelectListItem { Text = "TURBO8", Value = "TURBO8" },
+                                       new  SelectListItem { Text = "TURBO11", Value = "TURBO11" },
+                                       new  SelectListItem { Text = "YORK1", Value = "YORK1" },
+                                       new  SelectListItem { Text = "YORK2", Value = "YORK2" },
+                                       new  SelectListItem { Text = "YORK3", Value = "YORK3" },
+                                       new  SelectListItem { Text = "KULE", Value = "KULE" },
+                                       new  SelectListItem { Text = "KAZAN", Value = "KAZAN" },
+                                       new  SelectListItem { Text = "KURUTUCU", Value = "KURUTUCU" },
+                                       new  SelectListItem { Text = "KONVEYÖR", Value = "KONVEYÖR" },
+                                       new  SelectListItem { Text = "SHRINK", Value = "SHRINK" },
+                                       new  SelectListItem { Text = "TRANSPALET", Value = "TRANSPALET" },
+                                       new  SelectListItem { Text = "ÇORAP MAKİNESİ", Value = "ÇORAP MAKİNESİ" },
+                                       new  SelectListItem { Text = "BANT", Value = "BANT" },
+                                       new  SelectListItem { Text = "KUTU BANT", Value = "KUTU BANT" },
+                                       new  SelectListItem { Text = "FORKLIFT", Value = "FORKLIFT" },
+                                       new  SelectListItem { Text = "DİĞER", Value = "DİĞER" },
+
+
+
+               }, "--SEÇİNİZ--", new { @style = "color:black", @class = "form-control", title = "Lütfen Seçiniz!", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Makine, "", new { @class = "text-danger" })
+
+
+
+                                    </div>
+                                </div>
+
+                               
+                                <div class="form-row" style="background:#ff0000">
+
+                                    <div class="form-group col-md-2">
+
+                                        <b> @Html.Label("DEVREDEN ÇIKTI MI", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                        <div class="col-md-12">
+
+                                            @Html.CheckBoxFor(model => model.DevredenCiktiMi)
+                                            @Html.ValidationMessageFor(model => model.DevredenCiktiMi, "", new { @class = "text-danger" })
+
+                                        </div>
+
+                                    </div>
+
+                                    @if (Model.DevredenCiktiMi == true)
+            {
+                                    <div class="form-group col-md-2">
+                                        <b> @Html.Label("DEVREDEN ÇIKIŞ SAATİ", htmlAttributes: new { @class = "control-label col-md-12", style = "color:black" })</b>
+                                        <div class="col-md-12">
+                                            @Html.TextBoxFor(model => model.DevreCikisSaati, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DevreCikisSaati, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    }
+
+                                </div>
+
+                                </div>*@

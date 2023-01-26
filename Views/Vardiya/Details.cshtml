@@ -1,0 +1,142 @@
+﻿@model VardiyaTakipDefteri.Models.Vardiya_Defter
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @Html.HiddenFor(model => model.ID)
+</div>
+
+
+
+<body>
+    <div class="bs-example">
+        <table class="table table-bordered table-hover table-striped table-responsive-xxl">
+            <thead class="table-striped">
+                <center>
+                    <h3>
+                        <b>
+                          @Convert.ToDateTime(Model.Vardiya_DefterAna.Tarih).ToString("dd.MM.yyyy") TARİHİNDEKİ @Model.Vardiya_DefterAna.VardiyaSaati SAATİ VARDİYA DETAYLARI
+
+                        </b>
+                    </h3>
+                </center>
+
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="color: black"><b>VARDİYA TARİHİ</b></td>
+                    <td style="color: black">   @Convert.ToDateTime(Model.Vardiya_DefterAna.Tarih).ToString("dd.MM.yyyy") </td>
+                </tr>
+
+                <tr>
+                    <td style="color: black"><b>VARDİYA SAATİ</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.Vardiya_DefterAna.VardiyaSaati)</td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>VARDİYA AMİRİ</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.Vardiya_DefterAna.VardiyaAmiri)</td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>VARDİYA AMİR YARDIMCISI</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.Vardiya_DefterAna.VardiyaAmirYardimcisi)</td>
+                </tr>
+
+                <tr>
+                    <td style="color: black"><b>MAKİNE</b></td>
+                    <td style="color: black">
+                        @Html.DisplayFor(model => model.Makine)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>KANAL FIRIN POZİSYON NUMARASI</b></td>
+                    <td style="color: black">
+                        @Html.DisplayFor(model => model.KanalFirinPozisyon)
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td style="color: black"><b>WİNDER NO</b></td>
+                    <td style="color: black">
+                        @Html.DisplayFor(model => model.WinderNo)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="color: black"><b>AÇIKLAMA</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.Aciklama)</td>
+                </tr>
+
+                <tr>
+                    <td style="color: black"><b>DEVREDEN ÇIKTI MI</b></td>
+                    <td style="color: black">
+                        @if (Model.DevredenCiktiMi == true)
+                        {
+                            @Html.Encode("EVET")
+                        }
+                        @if (Model.DevredenCiktiMi == false)
+                        {
+                            @Html.Encode("HAYIR")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>DEVREDEN ÇIKIŞ SAATİ</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.DevreCikisSaati)</td>
+                </tr>
+
+                @*<tr>
+            <td style="color: black"><b>RESİMLER</b></td>
+            <td>
+                @foreach (var item in Model.Vardiya_Resim)
+                {
+                    <div class="photo" id="photo">
+                        <img src="@item.ImagePath" width="200" height="200" />
+                    </div>
+                    <br />
+                }
+            </td>
+        </tr>*@
+                @foreach (var item in Model.Vardiya_Resim)
+                {
+                    if (Model.Vardiya_Resim != null)
+                    {
+                        <tr>
+                            <td style="color: black"><b>RESİM</b></td>
+                            <td style="color: black"> <img src="@Url.Content(item.ImagePath)" width="600" height="600" /> @*<img src="~/Content/upload/@Model.Resims"*@   @*/></td>*@
+
+                        </tr>
+                    }
+                }
+
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+@Html.ActionLink("LİSTEYE GERİ DÖN", "Index", "Vardiya", new { @class = "btn btn-info" })
+
+
+<style>
+    .photo {
+        transform: scale(1);
+        transition: transform 0.9s;
+    }
+
+        .photo:hover {
+            transform: scale(2.2);
+        }
+</style>
+
+
+

@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="POLY_QDMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Vardiya_Bolum">
+          <Key>
+            <PropertyRef Name="BolumID" />
+          </Key>
+          <Property Name="BolumID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bolum" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Vardiya_BolumMakine">
+          <Key>
+            <PropertyRef Name="MakineID" />
+          </Key>
+          <Property Name="MakineID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Makineler" Type="nvarchar(max)" />
+          <Property Name="BolumID" Type="int" />
+        </EntityType>
+        <EntityType Name="Vardiya_Defter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VardiyaTarihi" Type="datetime" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="DevredenCiktiMi" Type="bit" />
+          <Property Name="DevreCikisSaati" Type="nvarchar" MaxLength="50" />
+          <Property Name="DefterId" Type="int" />
+          <Property Name="WinderNo" Type="int" />
+          <Property Name="KanalFirinPozisyon" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bolum" Type="nvarchar" MaxLength="250" />
+          <Property Name="Makine" Type="nvarchar(max)" />
+          <Property Name="MakineID" Type="int" />
+          <Property Name="BolumID" Type="int" />
+          <Property Name="Taraf" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Vardiya_DefterAna">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="VardiyaAmiri" Type="nvarchar(max)" />
+          <Property Name="TamamlandiMi" Type="bit" />
+          <Property Name="VardiyaAmirYardimcisi" Type="nvarchar(max)" />
+          <Property Name="VardiyaSaati" Type="nvarchar" MaxLength="50" />
+          <Property Name="VardiyaSaatiId" Type="int" />
+          <Property Name="VardiyaSaatDeger" Type="int" />
+        </EntityType>
+        <EntityType Name="Vardiya_Kullanici">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="nvarchar(max)" />
+          <Property Name="Sifre" Type="int" />
+        </EntityType>
+        <EntityType Name="Vardiya_Resim">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VardiyaId" Type="int" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Vardiya_Saat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VardiyaSaati" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Vardiya_TrafoKmprsr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrafoNo1" Type="int" />
+          <Property Name="TrafoNo2" Type="int" />
+          <Property Name="TrafoNo3" Type="int" />
+          <Property Name="TrafoNo4" Type="int" />
+          <Property Name="TrafoNo5" Type="int" />
+          <Property Name="TrafoNo6" Type="int" />
+          <Property Name="TrafoNo7" Type="int" />
+          <Property Name="YedekKompresor" Type="nvarchar" MaxLength="500" />
+          <Property Name="CalisanSogutmaIsitma" Type="nvarchar" MaxLength="500" />
+          <Property Name="VardiyaDefteriAnaId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Vardiya_BolumMakine_Vardiya_Bolum">
+          <End Role="Vardiya_Bolum" Type="Self.Vardiya_Bolum" Multiplicity="0..1" />
+          <End Role="Vardiya_BolumMakine" Type="Self.Vardiya_BolumMakine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Bolum">
+              <PropertyRef Name="BolumID" />
+            </Principal>
+            <Dependent Role="Vardiya_BolumMakine">
+              <PropertyRef Name="BolumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_Defter_Vardiya_DefterAna">
+          <End Role="Vardiya_BolumMakine" Type="Self.Vardiya_BolumMakine" Multiplicity="0..1" />
+          <End Role="Vardiya_Defter" Type="Self.Vardiya_Defter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_BolumMakine">
+              <PropertyRef Name="MakineID" />
+            </Principal>
+            <Dependent Role="Vardiya_Defter">
+              <PropertyRef Name="MakineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_Defter_Vardiya_DefterAna1">
+          <End Role="Vardiya_DefterAna" Type="Self.Vardiya_DefterAna" Multiplicity="0..1" />
+          <End Role="Vardiya_Defter" Type="Self.Vardiya_Defter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_DefterAna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_Defter">
+              <PropertyRef Name="DefterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_DefterAna_Vardiya_Saat">
+          <End Role="Vardiya_Saat" Type="Self.Vardiya_Saat" Multiplicity="0..1" />
+          <End Role="Vardiya_DefterAna" Type="Self.Vardiya_DefterAna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Saat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_DefterAna">
+              <PropertyRef Name="VardiyaSaatiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_Resim_Vardiya_Defter">
+          <End Role="Vardiya_Defter" Type="Self.Vardiya_Defter" Multiplicity="0..1" />
+          <End Role="Vardiya_Resim" Type="Self.Vardiya_Resim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Defter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_Resim">
+              <PropertyRef Name="VardiyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna">
+          <End Role="Vardiya_DefterAna" Type="Self.Vardiya_DefterAna" Multiplicity="0..1" />
+          <End Role="Vardiya_TrafoKmprsr" Type="Self.Vardiya_TrafoKmprsr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_DefterAna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_TrafoKmprsr">
+              <PropertyRef Name="VardiyaDefteriAnaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="POLY_QDMSModelStoreContainer">
+          <EntitySet Name="Vardiya_Bolum" EntityType="Self.Vardiya_Bolum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_BolumMakine" EntityType="Self.Vardiya_BolumMakine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_Defter" EntityType="Self.Vardiya_Defter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_DefterAna" EntityType="Self.Vardiya_DefterAna" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_Kullanici" EntityType="Self.Vardiya_Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_Resim" EntityType="Self.Vardiya_Resim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_Saat" EntityType="Self.Vardiya_Saat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vardiya_TrafoKmprsr" EntityType="Self.Vardiya_TrafoKmprsr" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Vardiya_BolumMakine_Vardiya_Bolum" Association="Self.FK_Vardiya_BolumMakine_Vardiya_Bolum">
+            <End Role="Vardiya_Bolum" EntitySet="Vardiya_Bolum" />
+            <End Role="Vardiya_BolumMakine" EntitySet="Vardiya_BolumMakine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_Defter_Vardiya_DefterAna" Association="Self.FK_Vardiya_Defter_Vardiya_DefterAna">
+            <End Role="Vardiya_BolumMakine" EntitySet="Vardiya_BolumMakine" />
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_Defter_Vardiya_DefterAna1" Association="Self.FK_Vardiya_Defter_Vardiya_DefterAna1">
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_DefterAna_Vardiya_Saat" Association="Self.FK_Vardiya_DefterAna_Vardiya_Saat">
+            <End Role="Vardiya_Saat" EntitySet="Vardiya_Saat" />
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_Resim_Vardiya_Defter" Association="Self.FK_Vardiya_Resim_Vardiya_Defter">
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+            <End Role="Vardiya_Resim" EntitySet="Vardiya_Resim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna" Association="Self.FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna">
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+            <End Role="Vardiya_TrafoKmprsr" EntitySet="Vardiya_TrafoKmprsr" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POLY_QDMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="POLY_QDMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Vardiya_Kullanici" EntityType="POLY_QDMSModel.Vardiya_Kullanici" />
+          <EntitySet Name="Vardiya_Resim" EntityType="POLY_QDMSModel.Vardiya_Resim" />
+          <EntitySet Name="Vardiya_TrafoKmprsr" EntityType="POLY_QDMSModel.Vardiya_TrafoKmprsr" />
+          <EntitySet Name="Vardiya_Bolum" EntityType="POLY_QDMSModel.Vardiya_Bolum" />
+          <EntitySet Name="Vardiya_BolumMakine" EntityType="POLY_QDMSModel.Vardiya_BolumMakine" />
+          <AssociationSet Name="FK_Vardiya_BolumMakine_Vardiya_Bolum" Association="POLY_QDMSModel.FK_Vardiya_BolumMakine_Vardiya_Bolum">
+            <End Role="Vardiya_Bolum" EntitySet="Vardiya_Bolum" />
+            <End Role="Vardiya_BolumMakine" EntitySet="Vardiya_BolumMakine" />
+          </AssociationSet>
+          <EntitySet Name="Vardiya_Defter" EntityType="POLY_QDMSModel.Vardiya_Defter" />
+          <AssociationSet Name="FK_Vardiya_Defter_Vardiya_DefterAna" Association="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna">
+            <End Role="Vardiya_BolumMakine" EntitySet="Vardiya_BolumMakine" />
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_Resim_Vardiya_Defter" Association="POLY_QDMSModel.FK_Vardiya_Resim_Vardiya_Defter">
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+            <End Role="Vardiya_Resim" EntitySet="Vardiya_Resim" />
+          </AssociationSet>
+          <EntitySet Name="Vardiya_Saat" EntityType="POLY_QDMSModel.Vardiya_Saat" />
+          <EntitySet Name="Vardiya_DefterAna" EntityType="POLY_QDMSModel.Vardiya_DefterAna" />
+          <AssociationSet Name="FK_Vardiya_Defter_Vardiya_DefterAna1" Association="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna1">
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+            <End Role="Vardiya_Defter" EntitySet="Vardiya_Defter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_DefterAna_Vardiya_Saat" Association="POLY_QDMSModel.FK_Vardiya_DefterAna_Vardiya_Saat">
+            <End Role="Vardiya_Saat" EntitySet="Vardiya_Saat" />
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna" Association="POLY_QDMSModel.FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna">
+            <End Role="Vardiya_DefterAna" EntitySet="Vardiya_DefterAna" />
+            <End Role="Vardiya_TrafoKmprsr" EntitySet="Vardiya_TrafoKmprsr" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Vardiya_Kullanici">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vardiya_Resim">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VardiyaId" Type="Int32" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vardiya_Defter" Relationship="POLY_QDMSModel.FK_Vardiya_Resim_Vardiya_Defter" FromRole="Vardiya_Resim" ToRole="Vardiya_Defter" />
+        </EntityType>
+        <EntityType Name="Vardiya_TrafoKmprsr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrafoNo1" Type="Int32" />
+          <Property Name="TrafoNo2" Type="Int32" />
+          <Property Name="TrafoNo3" Type="Int32" />
+          <Property Name="TrafoNo4" Type="Int32" />
+          <Property Name="TrafoNo5" Type="Int32" />
+          <Property Name="TrafoNo6" Type="Int32" />
+          <Property Name="TrafoNo7" Type="Int32" />
+          <Property Name="YedekKompresor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CalisanSogutmaIsitma" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="VardiyaDefteriAnaId" Type="Int32" />
+          <NavigationProperty Name="Vardiya_DefterAna" Relationship="POLY_QDMSModel.FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna" FromRole="Vardiya_TrafoKmprsr" ToRole="Vardiya_DefterAna" />
+        </EntityType>
+        <EntityType Name="Vardiya_Bolum">
+          <Key>
+            <PropertyRef Name="BolumID" />
+          </Key>
+          <Property Name="BolumID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bolum" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vardiya_BolumMakine" Relationship="POLY_QDMSModel.FK_Vardiya_BolumMakine_Vardiya_Bolum" FromRole="Vardiya_Bolum" ToRole="Vardiya_BolumMakine" />
+        </EntityType>
+        <EntityType Name="Vardiya_BolumMakine">
+          <Key>
+            <PropertyRef Name="MakineID" />
+          </Key>
+          <Property Name="MakineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Makineler" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BolumID" Type="Int32" />
+          <NavigationProperty Name="Vardiya_Bolum" Relationship="POLY_QDMSModel.FK_Vardiya_BolumMakine_Vardiya_Bolum" FromRole="Vardiya_BolumMakine" ToRole="Vardiya_Bolum" />
+          <NavigationProperty Name="Vardiya_Defter" Relationship="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna" FromRole="Vardiya_BolumMakine" ToRole="Vardiya_Defter" />
+        </EntityType>
+        <Association Name="FK_Vardiya_BolumMakine_Vardiya_Bolum">
+          <End Type="POLY_QDMSModel.Vardiya_Bolum" Role="Vardiya_Bolum" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_BolumMakine" Role="Vardiya_BolumMakine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Bolum">
+              <PropertyRef Name="BolumID" />
+            </Principal>
+            <Dependent Role="Vardiya_BolumMakine">
+              <PropertyRef Name="BolumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Vardiya_Defter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VardiyaTarihi" Type="DateTime" Precision="3" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DevredenCiktiMi" Type="Boolean" />
+          <Property Name="DevreCikisSaati" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DefterId" Type="Int32" />
+          <Property Name="WinderNo" Type="Int32" />
+          <Property Name="KanalFirinPozisyon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bolum" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Makine" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MakineID" Type="Int32" />
+          <Property Name="BolumID" Type="Int32" />
+          <Property Name="Taraf" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vardiya_BolumMakine" Relationship="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna" FromRole="Vardiya_Defter" ToRole="Vardiya_BolumMakine" />
+          <NavigationProperty Name="Vardiya_Resim" Relationship="POLY_QDMSModel.FK_Vardiya_Resim_Vardiya_Defter" FromRole="Vardiya_Defter" ToRole="Vardiya_Resim" />
+          <NavigationProperty Name="Vardiya_DefterAna" Relationship="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna1" FromRole="Vardiya_Defter" ToRole="Vardiya_DefterAna" />
+        </EntityType>
+        <Association Name="FK_Vardiya_Defter_Vardiya_DefterAna">
+          <End Type="POLY_QDMSModel.Vardiya_BolumMakine" Role="Vardiya_BolumMakine" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_Defter" Role="Vardiya_Defter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_BolumMakine">
+              <PropertyRef Name="MakineID" />
+            </Principal>
+            <Dependent Role="Vardiya_Defter">
+              <PropertyRef Name="MakineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_Resim_Vardiya_Defter">
+          <End Type="POLY_QDMSModel.Vardiya_Defter" Role="Vardiya_Defter" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_Resim" Role="Vardiya_Resim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Defter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_Resim">
+              <PropertyRef Name="VardiyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Vardiya_Saat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VardiyaSaati" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vardiya_DefterAna" Relationship="POLY_QDMSModel.FK_Vardiya_DefterAna_Vardiya_Saat" FromRole="Vardiya_Saat" ToRole="Vardiya_DefterAna" />
+        </EntityType>
+        <EntityType Name="Vardiya_DefterAna">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="VardiyaAmiri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TamamlandiMi" Type="Boolean" />
+          <Property Name="VardiyaAmirYardimcisi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VardiyaSaati" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VardiyaSaatiId" Type="Int32" />
+          <Property Name="VardiyaSaatDeger" Type="Int32" />
+          <NavigationProperty Name="Vardiya_Defter" Relationship="POLY_QDMSModel.FK_Vardiya_Defter_Vardiya_DefterAna1" FromRole="Vardiya_DefterAna" ToRole="Vardiya_Defter" />
+          <NavigationProperty Name="Vardiya_Saat" Relationship="POLY_QDMSModel.FK_Vardiya_DefterAna_Vardiya_Saat" FromRole="Vardiya_DefterAna" ToRole="Vardiya_Saat" />
+          <NavigationProperty Name="Vardiya_TrafoKmprsr" Relationship="POLY_QDMSModel.FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna" FromRole="Vardiya_DefterAna" ToRole="Vardiya_TrafoKmprsr" />
+        </EntityType>
+        <Association Name="FK_Vardiya_Defter_Vardiya_DefterAna1">
+          <End Type="POLY_QDMSModel.Vardiya_DefterAna" Role="Vardiya_DefterAna" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_Defter" Role="Vardiya_Defter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_DefterAna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_Defter">
+              <PropertyRef Name="DefterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_DefterAna_Vardiya_Saat">
+          <End Type="POLY_QDMSModel.Vardiya_Saat" Role="Vardiya_Saat" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_DefterAna" Role="Vardiya_DefterAna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_Saat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_DefterAna">
+              <PropertyRef Name="VardiyaSaatiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vardiya_TrafoKmprsr_Vardiya_DefterAna">
+          <End Type="POLY_QDMSModel.Vardiya_DefterAna" Role="Vardiya_DefterAna" Multiplicity="0..1" />
+          <End Type="POLY_QDMSModel.Vardiya_TrafoKmprsr" Role="Vardiya_TrafoKmprsr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vardiya_DefterAna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vardiya_TrafoKmprsr">
+              <PropertyRef Name="VardiyaDefteriAnaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POLY_QDMSModelStoreContainer" CdmEntityContainer="POLY_QDMSEntities">
+          <EntitySetMapping Name="Vardiya_Kullanici">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_Kullanici">
+              <MappingFragment StoreEntitySet="Vardiya_Kullanici">
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_Resim">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_Resim">
+              <MappingFragment StoreEntitySet="Vardiya_Resim">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="VardiyaId" ColumnName="VardiyaId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_TrafoKmprsr">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_TrafoKmprsr">
+              <MappingFragment StoreEntitySet="Vardiya_TrafoKmprsr">
+                <ScalarProperty Name="VardiyaDefteriAnaId" ColumnName="VardiyaDefteriAnaId" />
+                <ScalarProperty Name="CalisanSogutmaIsitma" ColumnName="CalisanSogutmaIsitma" />
+                <ScalarProperty Name="YedekKompresor" ColumnName="YedekKompresor" />
+                <ScalarProperty Name="TrafoNo7" ColumnName="TrafoNo7" />
+                <ScalarProperty Name="TrafoNo6" ColumnName="TrafoNo6" />
+                <ScalarProperty Name="TrafoNo5" ColumnName="TrafoNo5" />
+                <ScalarProperty Name="TrafoNo4" ColumnName="TrafoNo4" />
+                <ScalarProperty Name="TrafoNo3" ColumnName="TrafoNo3" />
+                <ScalarProperty Name="TrafoNo2" ColumnName="TrafoNo2" />
+                <ScalarProperty Name="TrafoNo1" ColumnName="TrafoNo1" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_Bolum">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_Bolum">
+              <MappingFragment StoreEntitySet="Vardiya_Bolum">
+                <ScalarProperty Name="Bolum" ColumnName="Bolum" />
+                <ScalarProperty Name="BolumID" ColumnName="BolumID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_BolumMakine">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_BolumMakine">
+              <MappingFragment StoreEntitySet="Vardiya_BolumMakine">
+                <ScalarProperty Name="BolumID" ColumnName="BolumID" />
+                <ScalarProperty Name="Makineler" ColumnName="Makineler" />
+                <ScalarProperty Name="MakineID" ColumnName="MakineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_Defter">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_Defter">
+              <MappingFragment StoreEntitySet="Vardiya_Defter">
+                <ScalarProperty Name="Taraf" ColumnName="Taraf" />
+                <ScalarProperty Name="BolumID" ColumnName="BolumID" />
+                <ScalarProperty Name="MakineID" ColumnName="MakineID" />
+                <ScalarProperty Name="Makine" ColumnName="Makine" />
+                <ScalarProperty Name="Bolum" ColumnName="Bolum" />
+                <ScalarProperty Name="KanalFirinPozisyon" ColumnName="KanalFirinPozisyon" />
+                <ScalarProperty Name="WinderNo" ColumnName="WinderNo" />
+                <ScalarProperty Name="DefterId" ColumnName="DefterId" />
+                <ScalarProperty Name="DevreCikisSaati" ColumnName="DevreCikisSaati" />
+                <ScalarProperty Name="DevredenCiktiMi" ColumnName="DevredenCiktiMi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="VardiyaTarihi" ColumnName="VardiyaTarihi" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_Saat">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_Saat">
+              <MappingFragment StoreEntitySet="Vardiya_Saat">
+                <ScalarProperty Name="VardiyaSaati" ColumnName="VardiyaSaati" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vardiya_DefterAna">
+            <EntityTypeMapping TypeName="POLY_QDMSModel.Vardiya_DefterAna">
+              <MappingFragment StoreEntitySet="Vardiya_DefterAna">
+                <ScalarProperty Name="VardiyaSaatDeger" ColumnName="VardiyaSaatDeger" />
+                <ScalarProperty Name="VardiyaSaatiId" ColumnName="VardiyaSaatiId" />
+                <ScalarProperty Name="VardiyaSaati" ColumnName="VardiyaSaati" />
+                <ScalarProperty Name="VardiyaAmirYardimcisi" ColumnName="VardiyaAmirYardimcisi" />
+                <ScalarProperty Name="TamamlandiMi" ColumnName="TamamlandiMi" />
+                <ScalarProperty Name="VardiyaAmiri" ColumnName="VardiyaAmiri" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

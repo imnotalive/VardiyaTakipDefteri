@@ -1,0 +1,206 @@
+﻿@model VardiyaTakipDefteri.Models.Vardiya_DefterAna
+
+@{
+    ViewBag.Title = "Detaylar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @Html.HiddenFor(model => model.ID)
+</div>
+
+
+
+<body>
+    <div class="bs-example">
+        <table class="table table-bordered table-hover table-striped table-responsive-xxl">
+            <thead class="table-striped">
+                <center>
+                    <h3>
+                        <b>
+                            @Convert.ToDateTime(Model.Tarih).ToString("dd.MM.yyyy") TARİHİNDEKİ @Model.VardiyaSaati SAATİ VARDİYA DETAYLARI
+
+                        </b>
+                    </h3>
+                </center>
+
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="color: black"><b>VARDİYA TARİHİ</b></td>
+                    <td style="color: black">   @Convert.ToDateTime(Model.Tarih).ToString("dd.MM.yyyy") </td>
+                </tr>
+
+                <tr>
+                    <td style="color: black"><b>VARDİYA SAATİ</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.VardiyaSaati)</td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>VARDİYA AMİRİ</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.VardiyaAmiri)</td>
+                </tr>
+                <tr>
+                    <td style="color: black"><b>VARDİYA AMİR YARDIMCISI</b></td>
+                    <td style="color: black">  @Html.DisplayFor(model => model.VardiyaAmirYardimcisi)</td>
+                </tr>
+
+
+                @foreach (var detay in Model.Vardiya_Defter)
+                {
+                    <tr>
+                        <td style="color: black"><b>BÖLÜM - MAKİNE - AÇIKLAMA </b></td>
+                        <td style="color: black">  @(detay.Bolum)</td>
+                        <td style="color: black">  @(detay.Makine)</td>
+                        <td style="color: black">  @(detay.KanalFirinPozisyon)</td>
+                        <td style="color: black">  @(detay.WinderNo)</td>
+                        <td style="color: black">  @(detay.Aciklama)</td>
+                        <td>
+                            @if (detay.DevredenCiktiMi == true)
+                            {
+                                @Html.Encode("EVET")
+                            }
+                            @if (detay.DevredenCiktiMi == false)
+                            {
+                                @Html.Encode("HAYIR")
+                            }
+                        </td>
+                        <td style="color: black">  @(detay.DevreCikisSaati)</td>
+
+
+
+                    </tr>
+
+
+
+
+
+                }
+
+
+                @foreach (var detay in Model.Vardiya_TrafoKmprsr)
+                {
+                    @*<tr>
+                <td> @(detay.TrafoNo1)</td>
+                <td>@(detay.TrafoNo2)</td>
+
+                <td> @(detay.TrafoNo3)</td>
+
+                <td> @(detay.TrafoNo4)</td>
+
+                <td> @(detay.TrafoNo5)</td>
+                <td> @(detay.TrafoNo6)</td>
+                <td> @(detay.TrafoNo7)</td>
+                <td> @(detay.YedekKompresor)</td>
+                <td> @(detay.CalisanSogutmaIsitma)</td>
+
+
+            </tr>*@
+                    <tr>
+                        <td style="color: black"><b>TRAFO 1</b></td>
+                        <td> @(detay.TrafoNo1)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 2</b></td>
+                        <td> @(detay.TrafoNo2)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 3</b></td>
+                        <td> @(detay.TrafoNo3)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 4</b></td>
+                        <td> @(detay.TrafoNo4)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 5</b></td>
+                        <td> @(detay.TrafoNo5)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 6</b></td>
+                        <td> @(detay.TrafoNo6)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>TRAFO 7</b></td>
+                        <td> @(detay.TrafoNo7)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>YEDEK KOMPRESÖR</b></td>
+                        <td> @(detay.YedekKompresor)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: black"><b>ÇALIŞAN SOĞUTMA ISITMA</b></td>
+                        <td> @(detay.CalisanSogutmaIsitma)</td>
+                    </tr>
+
+                }
+                @*<tr>
+            <td style="color: black"><b>MAKİNE</b></td>
+            <td style="color: black">
+                @Html.DisplayFor(model => model.Vardiya_Defter)
+            </td>
+        </tr>
+        <tr>
+            <td style="color: black"><b>KANAL FIRIN POZİSYON NUMARASI</b></td>
+            <td style="color: black">
+                @Html.DisplayFor(model => model.Vardiya_Defter)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="color: black"><b>WİNDER NO</b></td>
+            <td style="color: black">
+                @Html.DisplayFor(model => model.WinderNo)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="color: black"><b>AÇIKLAMA</b></td>
+            <td style="color: black">  @Html.DisplayFor(model => model.Aciklama)</td>
+        </tr>
+
+        <tr>
+            <td style="color: black"><b>DEVREDEN ÇIKTI MI</b></td>
+            <td style="color: black">
+                @if (Model.DevredenCiktiMi == true)
+                {
+                    @Html.Encode("EVET")
+                }
+                @if (Model.DevredenCiktiMi == false)
+                {
+                    @Html.Encode("HAYIR")
+                }
+            </td>
+        </tr>
+        <tr>
+            <td style="color: black"><b>DEVREDEN ÇIKIŞ SAATİ</b></td>
+            <td style="color: black">  @Html.DisplayFor(model => model.DevreCikisSaati)</td>
+        </tr>
+
+        <tr>
+            <td style="color: black"><b>RESİMLER</b></td>
+            <td>
+                @foreach (var item in Model.Vardiya_Resim)
+                {
+                    <div class="photo" id="photo">
+                        <img src="@item.ImagePath" width="1000" height="1000" />
+                    </div>
+                    <br />
+                }
+            </td>
+        </tr>*@
+
+
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+@Html.ActionLink("LİSTEYE GERİ DÖN", "Index", "Vardiya", new { @class = "btn btn-info" })
