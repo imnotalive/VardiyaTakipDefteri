@@ -1,32 +1,38 @@
 ﻿@using VardiyaTakipDefteri.Models
 @model IEnumerable<Vardiya_DefterAna>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Yetkisiz";
+    Layout = null;
 
     //WebGrid webGrid = new WebGrid(source: Model, canSort: true, canPage: true, rowsPerPage: 9);
     //List<Vardiya> cols = new List<Vardiya>();
 }
 
-<CENTER><h2><b>POLYTEKS VARDİYA TAKİP DEFTERİ</b></h2></CENTER>
-<p>
-    @Html.ActionLink("RAPORLAMA", "VardiyaRapor", "Vardiya", new { @class = "btn btn-danger" })
+    <center><h2><b>POLYTEKS VARDİYA TAKİP DEFTERİ</b></h2></center>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
 
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.print.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
 
-</p>
-<div class="text-center">
-    <button class="btn btn-success" data-toggle="modal" data-target="#myModal">YENİ VARDİYA EKLE</button>
-</div>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
 
 <table id="c" class="table table-bordered table-striped  table-hover table-dark" style="background-color: #8e8989">
     <thead style="background-color: #9c9b9b">
         <tr style="background-color: #9c9b9b" class="text-center">
-            <th>
 
-            </th>
 
             <th>
                 <b>TARİH</b>
@@ -53,14 +59,7 @@
             if (item.VardiyaSaati == "15:00-23:00")
             {
                 <tr style="background-color: #eed1a2">
-                    <td>
-                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br /> EKLE</i></a>
-                        <br />
-                        <br />
 
-                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success"> <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
-
-                    </td>
 
                     <td>
                         <center><b>  @Convert.ToDateTime(item.Tarih).ToString("dd.MM.yyyy")</b></center>
@@ -69,9 +68,9 @@
                         <b> @Html.DisplayFor(modelItem => item.VardiyaSaati)</b>
                     </td>
                     <td>
-    @Html.DisplayFor(modelItem => item.VardiyaAmiri)
-    //
-    @Html.DisplayFor(modelItem => item.VardiyaAmirYardimcisi)
+                        @Html.DisplayFor(modelItem => item.VardiyaAmiri)
+                        //
+                        @Html.DisplayFor(modelItem => item.VardiyaAmirYardimcisi)
 
                     </td>
 
@@ -107,9 +106,8 @@
                                         Devreden Çıkış Saati
                                     </th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+
+
 
                                 </tr>
                             </thead>
@@ -149,8 +147,7 @@
                                             }
 
                                         }
-                                        <td><a href="/Vardiya/VardiyaResimEkleme/@detay.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
-                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+
 
                                     </tr>
                                 }
@@ -189,7 +186,7 @@
                                     <th>
                                         Çalışan Soğutma Isıtma
                                     </th>
-                                    <th></th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -209,7 +206,7 @@
                                         <td> @(detay.YedekKompresor)</td>
                                         <td> @(detay.CalisanSogutmaIsitma)</td>
 
-                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -229,14 +226,7 @@
             else if (item.VardiyaSaati == "23:00-07:00")
             {
                 <tr style="background-color: #DCEDC8">
-                    <td>
-                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br />EKLE</i></a>
-                        <br />
-                        <br />
 
-                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success"> <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
-
-                    </td>
 
 
 
@@ -283,9 +273,8 @@
                                         Devreden Çıkış Saati
                                     </th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -323,8 +312,7 @@
                                             }
 
                                         }
-                                        <td><a href="/Vardiya/VardiyaResimEkleme/@detay.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
-                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -362,7 +350,7 @@
                                     <th>
                                         Çalışan Soğutma Isıtma
                                     </th>
-                                    <th></th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -382,7 +370,6 @@
                                         <td> @(detay.YedekKompresor)</td>
                                         <td> @(detay.CalisanSogutmaIsitma)</td>
 
-                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
                                     </tr>
                                 }
                             </tbody>
@@ -402,14 +389,7 @@
             else if (item.VardiyaSaati == "07:00-15:00")
             {
                 <tr style="background-color: #BBDEFB">
-                    <td>
-                        <a href="/Vardiya/Edit/@item.ID" class="btn btn-primary"> <i class="glyphicon glyphicon-plus">ARIZA/OLAY <br /> EKLE</i></a>
-                        <br />
-                        <br />
 
-                        <a href="/Vardiya/EditTrafo/@item.ID" class="btn btn-success" id="btn" > <i class="glyphicon glyphicon-plus">TRAFO <br /> EKLE</i></a>
-
-                    </td>
 
                     <td>
                         <center><b>  @Convert.ToDateTime(item.Tarih).ToString("dd.MM.yyyy")</b></center>
@@ -454,9 +434,8 @@
                                         Devreden Çıkış Saati
                                     </th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -493,8 +472,7 @@
                                             }
 
                                         }
-                                        <td><a href="/Vardiya/VardiyaResimEkleme/@item.ID" class="btn btn-primary" title="RESİM EKLE"> <i class="glyphicon glyphicon-plus-sign"></i></a></td>
-                                        <td><a href="/Vardiya/Delete/@detay.ID" class="btn btn-danger" title="SİL"> <i class="glyphicon glyphicon-trash"></i></a></td>
+
 
                                     </tr>
                                 }
@@ -533,7 +511,7 @@
                                     <th>
                                         Çalışan Soğutma Isıtma
                                     </th>
-                                    <th></th>
+
 
                                 </tr>
                             </thead>
@@ -554,7 +532,7 @@
                                         <td> @(detay.YedekKompresor)</td>
                                         <td> @(detay.CalisanSogutmaIsitma)</td>
 
-                                        <td>  <a href="/Vardiya/TrafoDuzenle/@detay.ID" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i></a></td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -575,17 +553,7 @@
         }
     </tbody>
 </table>
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
-<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
 
-<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
-<script src="~/Scripts/DataTables/buttons.print.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -596,7 +564,7 @@
             searching: true,
             "order": [],
             ordering: false,
-            responsive:true,
+            responsive: true,
             //aaSorting: [[0, "asc"]],
             /*  order: [[6, "asc"]],*/
             /*   "order": [[6, "asc"]],*/
@@ -604,11 +572,11 @@
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
             },
             "autoWidth": true,
-   
-    
+
+
             "scrollX": true,
-        
-        
+
+
         });
     });
 
@@ -617,9 +585,6 @@
 </script>
 
 
-<script src="~/Scripts/bootstrap.min.js"></script>
-
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
 
 @using (Html.BeginForm("Create", "Numune", FormMethod.Post))
@@ -671,12 +636,10 @@
     <style>
         table.table-bordered > thead > tr > th {
             border: 2px solid black;
-          
         }
 
         .table-bordered tbody tr {
             border: 2px solid black;
-           
         }
 
             .table-bordered tbody tr td {
@@ -685,24 +648,16 @@
 
         .table-bordered tbody tr {
             border: 2px solid black;
-        
         }
 
         .table-bordered thead tr {
             border: 2px solid black;
-          
         }
 
             .table-bordered thead tr th {
                 border: 2px solid black;
-               
             }
-  
-    
-    
-
-   
     </style>
 
-   
-}
+
+}</html>

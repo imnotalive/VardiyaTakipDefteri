@@ -101,60 +101,11 @@ namespace VardiyaTakipDefteri.Controllers
 
         }
 
-        //public ActionResult Indexs(string ara)
-        //{
-        //    using (POLY_QDMSEntities entites = new POLY_QDMSEntities())
-        //    {
-        //        List<Vardiya> model = new List<Vardiya>();
-
-        //        foreach (Vardiya_DefterAna customer in entites.Vardiya_DefterAna.OrderByDescending(a => a.Tarih))
-        //        {
-        //            model.Add(new Vardiya
-        //            {
-        //                ID = customer.ID,
-        //                Tarih = customer.Tarih,
-        //                VardiyaSaati = customer.VardiyaSaati,
-        //                VardiyaAmiri = customer.VardiyaAmiri,
-        //                VardiyaAmiriYrd = customer.VardiyaAmirYardimcisi,
-
-        //                Orders = entites.Vardiya_Defter.Where(o => o.DefterId == customer.ID).OrderByDescending(o => o.VardiyaTarihi).Take(9).ToList()
-        //            });
-        //        }
-        //        //var data = GetEmployees(search);
-
-        //        return View(model);
-        //    }
-        //}
-        //Vardiya _mobjModel = new Vardiya();
-        //public ActionResult Filter(string description)
-        //{
-        //    var schedules = _mobjModel.Orders.ToList();
-
-        //    if (!string.IsNullOrEmpty(description))
-        //    {
-        //        schedules = schedules.Where(s => s.Makine.ToLower().Contains(description.ToLower())).ToList();
-        //    }
-
-        //    return PartialView("Index", schedules);
-        //}
-        [AllowAnonymous]
-        public ActionResult Ara(int? ara)
+     
+        public ActionResult Yetkisiz()
         {
-            int? department_id = Convert.ToInt32(ara);
-            var qq = (from e in db.Vardiya_DefterAna
-                      join d in db.Vardiya_Defter on e.ID equals d.DefterId
-                      where e.ID == department_id
-                      select new Vardiya
-                      {
-                          ID = e.ID,
-
-                          Tarih = e.Tarih,
-                          VardiyaAmiri = e.VardiyaAmiri,
-                          VardiyaSaati = e.VardiyaSaati,
-                          VardiyaAmiriYrd = e.VardiyaAmirYardimcisi,
-
-                      }).ToList();
-            return PartialView("Index", qq);
+            List<Vardiya_DefterAna> fisAna = db.Vardiya_DefterAna.OrderByDescending(x => x.Tarih).ThenBy(x => x.VardiyaSaatDeger).ToList();
+            return View(fisAna);
 
         }
 
@@ -349,70 +300,50 @@ namespace VardiyaTakipDefteri.Controllers
             return Json(makine, JsonRequestBehavior.AllowGet);
 
         }
+      
         [AllowAnonymous]
         public ActionResult EditDetay(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Vardiya_Defter vardiya_Defter = db.Vardiya_Defter.Find(id);
-
-
             if (vardiya_Defter == null)
             {
                 return HttpNotFound();
             }
-
+            ViewBag.MakineID = new SelectList(db.Vardiya_BolumMakine, "MakineID", "Makineler", vardiya_Defter.MakineID);
+            ViewBag.BolumID = new SelectList(db.Vardiya_Bolum, "BolumID", "Bolum", vardiya_Defter.BolumID);
+            ViewBag.DefterId = new SelectList(db.Vardiya_DefterAna, "ID", "VardiyaAmiri", vardiya_Defter.DefterId);
             return View(vardiya_Defter);
         }
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult EditDetay(int? id, Vardiya_Defter defter, Vardiya_DefterAna fis)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditDetay(Vardiya_Defter vardiya_Defter,int id)
         {
-            Vardiya_Defter fisDetay = db.Vardiya_Defter.FirstOrDefault(x => x.ID == id);
+    
+
+            List<Vardiya_Bolum> CountryList = db.Vardiya_Bolum.ToList();
+            ViewBag.BolumID = new SelectList(CountryList, "BolumID", "Bolum");
+            List<Vardiya_BolumMakine> CountryLists = db.Vardiya_BolumMakine.ToList();
+            ViewBag.MakineID = new SelectList(CountryLists, "MakineID", "Makineler");
+            //fis = db.Vardiya_DefterAna.FirstOrDefault(x => x.ID == id);
+            //vardiya_Defter.DefterId = fis.ID;
             if (ModelState.IsValid)
             {
-
-
-                fisDetay.Aciklama = defter.Aciklama;
-                fisDetay.Makine = defter.Makine;
-                fisDetay.WinderNo = defter.WinderNo;
-                fisDetay.KanalFirinPozisyon = defter.KanalFirinPozisyon;
-                fisDetay.DevreCikisSaati = defter.DevreCikisSaati;
-                fisDetay.DevredenCiktiMi = defter.DevredenCiktiMi;
+    
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(fisDetay);
+            ViewBag.MakineID = new SelectList(db.Vardiya_BolumMakine, "MakineID", "Makineler", vardiya_Defter.MakineID);
+            ViewBag.BolumID = new SelectList(db.Vardiya_Bolum, "BolumID", "Bolum", vardiya_Defter.BolumID);
+            ViewBag.DefterId = new SelectList(db.Vardiya_DefterAna, "ID", "VardiyaAmiri", vardiya_Defter.DefterId);
+            return View(vardiya_Defter);
         }
 
 
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Vardiya_Defter vardiya_Defter = db.Vardiya_Defter.Find(id);
-        //    if (vardiya_Defter == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(vardiya_Defter);
-        //}
-
-
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Vardiya_Defter vardiya_Defter = db.Vardiya_Defter.Find(id);
-        //    db.Vardiya_Defter.Remove(vardiya_Defter);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         public ActionResult Delete(int? id, Vardiya_Defter fisDetay)
         {
@@ -507,7 +438,7 @@ namespace VardiyaTakipDefteri.Controllers
                 foreach (var list in model.VardiyaSureModel)
                 {
                     dt.Rows.Add(
-                        list.VardiyaTarihi.GetValueOrDefault().ToString("dd.MM.yyyy"), list.Vardiya_DefterAna.VardiyaAmiri, list.Vardiya_DefterAna.VardiyaAmirYardimcisi, list.Vardiya_DefterAna.VardiyaSaati, list.WinderNo, list.KanalFirinPozisyon, list.Bolum, list.Makine, list.Aciklama, list.DevredenCiktiMi ? "EVET" : "HAYIR", list.DevreCikisSaati);
+                        list.VardiyaTarihi.GetValueOrDefault().ToString("dd.MM.yyyy"), list.Vardiya_DefterAna.VardiyaAmiri, list.Vardiya_DefterAna.VardiyaAmirYardimcisi, list.Vardiya_DefterAna.VardiyaSaati, list.WinderNo, list.KanalFirinPozisyon, list.Vardiya_BolumMakine.Vardiya_Bolum.Bolum ,list.Vardiya_BolumMakine.Makineler, list.Aciklama, list.DevredenCiktiMi ? "EVET" : "HAYIR", list.DevreCikisSaati);
                 }
 
             }
@@ -519,7 +450,7 @@ namespace VardiyaTakipDefteri.Controllers
             using (XLWorkbook wb = new XLWorkbook())
             {
                 var W_WorkSheet = wb.Worksheets.Add(dt, "VardiyaDefteri");
-                //W_WorkSheet.Columns().AdjustToContents(); // Sütunların içerigine göre sütünları genişletir
+                W_WorkSheet.Columns().AdjustToContents(); // Sütunların içerigine göre sütünları genişletir
                 W_WorkSheet.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -578,7 +509,7 @@ namespace VardiyaTakipDefteri.Controllers
 
                     };
                     sayac++;
-                    db.Vardiya_DefterAna.Add(fis);
+                
                     result = db.SaveChanges();
 
                 }
